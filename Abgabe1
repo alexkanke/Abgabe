@@ -1,0 +1,157 @@
+\documentclass{article}
+
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{parskip} % für Absätze
+\usepackage{fancyhdr}  
+\usepackage[utf8]{inputenc} 
+\usepackage[ngerman]{babel} 
+\usepackage[T1]{fontenc}   
+
+\usepackage{url} % benötigt für URL in Literaturverzeichnis
+
+\title{Abgabe für Computergestützte Methoden}
+\author{Gruppe 13 \\[2pt]
+Alexander Kanke 4186743 \\[2pt]
+Akif Yasar 4155107 \\[2pt]
+Kevin Heinz 4195829}
+\date{02.12.2024}
+
+\begin{document}
+
+% Title, Autor und Datum erzeugen
+\maketitle
+
+% Inhaltsverzeichnis
+\tableofcontents
+
+% starte mit dem Inhalt auf der nächsten Seite
+\newpage
+
+
+\section{Der zentrale Grenzwertsatz}
+
+Der zentrale Grenzwertsatz (ZGS) ist ein fundamentales Resultat der Wahrscheinlichkeitstheorie, das die Verteilung von Summen unabhängiger, identisch verteilter \textit{i.i.d.} Zufallsvariablen (ZV) beschreibt. 
+Er besagt, dass unter bestimmten Voraussetzungen die Summe einer großen Anzahl solcher ZV annähernd normalverteilt ist, unabhängig von der Verteilung der einzelnen ZV. Dies ist besonders nützlich, da die Normalverteilung gut untersucht und mathematisch handhabbar ist.
+
+
+\subsection{Aussage}
+
+Sei \( X_1, X_2, \dots, X_n \) eine Folge von \textit{i.i.d.} ZV mit dem Erwartungswert \( \mu = \mathbb{E}(X_i) \) und der Varianz \( \sigma^2 = \mathrm{Var}(X_i) \), wobei \( 0 < \sigma^2 < \infty \) gelte. 
+Dann konvergiert die standardisierte Summe \( Z_n \) dieser ZV für \( n \to \infty \) in Verteilung gegen eine Standardnormalverteilung\footnote{Der zentrale Grenzwertsatz hat verschiedene Verallgemeinerungen. Eine davon ist der
+\textbf{Lindeberg-Feller-Zentrale-Grenzwertsatz} [[\ref{eq3}, Seite 328], der schwächere Bedingungen an
+die Unabh¨angigkeit und die identische Verteilung der ZV stellt.}:
+
+
+\begin{equation}
+    Z_n = \frac{\sum_{i=1}^n X_i - n\mu}{\sigma \sqrt{n}} \xrightarrow{d} N(0, 1)
+    \label{eq1}
+\end{equation}
+
+Das bedeutet, dass für große \( n \) die Summe der Zufallsvariablen näherungsweise normalverteilt ist mit Erwartungswert \( n\mu \) und Varianz \( n\sigma^2 \):
+\begin{equation}
+    \sum_{i=1}^n X_i \sim N(n\mu, n\sigma^2)
+    \label{eq2}
+\end{equation}
+
+
+\subsection{Erklärung der Standardisierung}
+Um die Summe der ZV in eine Standardnormalverteilung zu transformieren,
+subtrahiert man den Erwartungswert $n\mu$ und teilt durch die Standardabweichung $ \sigma \sqrt{n} $. Dies fuhrt zu der obigen Formel (\ref{eq1}). Die Darstellung (\ref{eq2}) ist für
+\( n \to \infty \) nicht wohldefiniert.
+\subsection{Anwendungen}
+Der ZGS wird in vielen Bereichen der Statistik und der Wahrscheinlichkeitstheorie angewendet. Typische Beispiele sind:
+\begin{itemize}
+    \item Die Approximation der Summe von Zufallsvariablen durch eine Normalverteilung
+\end{itemize}
+\begin{itemize}
+    \item Das Schätzen von Mittelwerten in Stichproben
+\end{itemize}
+
+
+
+
+
+\newpage
+\section{Bearbeitung zur Aufgabe 1}
+
+\subsection{Datenverarbeitung}
+\subsubsection{Erkenntnisse}
+Der Datensatz lässt sich in relevante Spalten gliedern, welche der Untersuchung der in (\ref{2.1.2}) berechneten höchsten mittleren Temperatur in Celsius dienen. \\[2pt]Folgende Spalten sind relevant:
+\begin{itemize}
+    \item station
+    \item date
+    \item average temperature
+    
+\end{itemize}
+
+\subsubsection{Berechnung der höchsten mittleren Temperatur in Celsius}
+\label{2.1.2}
+Die Berechnung funktioniert wie folgt:
+\begin{enumerate}
+    \item =MAX(J2:J36440) innerhalb der Befehls-Zeile liefert uns mit 83 die höchste mittlere Temperatur in Fahrenheit
+    \item durch die Umrechnung von Fahrenheit in Celsius mittels der Formel \\[2pt]
+    $Celsius = ((Fahrenheit =83) - 32)\times 5/9 = 28,33$
+\end{enumerate}
+Die höchste mittlere Temperatur lautet demnach 28,33 Grad Celsius. \\[2pt]
+Alternativ lässt sich der selbe Wert anhand einer Pivot-Tabelle ermitteln
+
+\begin{figure}[!h]
+    \centering 
+    \includegraphics[width=1\linewidth]{Pivot.PNG}
+    \caption{Pivot-Tabelle}
+    \label{fig:enter-label}
+\end{figure}
+\newpage
+\subsection{Datenhaltung}
+\subsubsection{Datenbank-Schema}
+Das Datenbank-Schema beschreibt die Attribute und deren Funktion für unsere Datenbank mit dem Ziel Fehler zu vermeiden und Datenkonsistenz sicher zu stellen.
+\begin{enumerate}
+    \item Normalform (1NF): Entferne wiederholende Gruppen und sorge dafür, dass jedes Attribut atomar ist. \\[2pt]
+    \textit{(ID, date, station, count, day of week, month of week, month of year, min temperature, max temperature, average temperature, average temperature celsius)}
+    \item Normalform (2NF): Vorhanden wenn 1NF erfüllt und alle Nicht- \\[2pt]Schlüsselattribute voll funktional abhängig vom gesamten Primärschlüssel sind. \\[2pt]
+    \textit{(ID, date, station, average temperature celsius, average temperature)}
+    
+\end{enumerate}
+'ID' fungiert hierbei als Primär-Schlüssel
+
+\subsubsection{Tabelle in SQL definiert}
+SQL Statements zur Erstellung einer Tabelle 
+\begin{center}
+    
+CREATE TABLE Wetterlage ( \\[2pt]
+    ID INTEGER PRIMARY KEY AUTOINCREMENT, \\[2pt]  date TEXT NOT NULL,           
+    \\[2pt] station TEXT NOT NULL,
+    \\[2pt] average temperature celsius INT NOT NULL,
+    \\[2pt] average temperature INT NOT NULL
+    \\[2pt]);
+    \end{center}
+
+    \subsubsection{Anpassung des Datensatzes mittels Python}
+    Mithilfe der Python Bibliothek namens Pandas besteht die Möglichkeit der Importierung des Datensatzes für die weitere Bearbeitung. Folgende Schritte sind notwendig um den rohen Datensatz für die SQL-Tabelle herzurichten:
+    \begin{enumerate}
+        \item Importierung des Datensatzes durch Pandas
+        \item Elimierung unwichtiger Parameter durch den 'df.drop'-Befehl
+        \item Import von sqlite3 in Python
+        \item 'insert into' als Befehl zur Definition der Zielspalten
+        \item 'values' als Befehl zum Eintragen des Datensatzes
+        \item Speichern des Datensatzes in einer Datenbank
+    
+        
+    \end{enumerate}
+    \newpage
+\subsubsection{Berechnung der höchsten mittleren Temperatur durch SQL}
+Zuerst wird der 'select'-Befehl in SQL dazu genutzt die mittlere Temperatur unseres überarbeiteten Datensatzes anzuzeigen um daraufhin durch den 'where'-Befehl und 2 Bedinungen unseren Zielwert herauszufinden. Der berechnete Wert ergibt 28,33. 
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{Unbenannt1.PNG}
+    \caption{SQL Statements}
+    \label{fig:enter-label}
+\end{figure}
+\section{Literatur}
+\begin{equation}
+Achim Klenke. Wahrscheinlichkeitstheorie. Springer, 3. edition, 2013.
+\label{eq3}
+\end{equation}
+\end{document}
